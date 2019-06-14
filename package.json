@@ -19,6 +19,7 @@
     "babel-loader": "^8.0.5",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "crypto": "^1.0.1",
     "express": "^4.16.4",
     "express-session": "^1.16.2",
     "path": "^0.12.7",

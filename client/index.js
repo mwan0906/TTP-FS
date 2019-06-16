@@ -1,14 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import store from './store';
+
+import { NavBar, Form } from './components';
 
 function App() {
-  return <div>hello world</div>;
+  return (
+    <div>
+      <NavBar />
+      <Form type='Sign Up' />
+    </div>
+  );
 }
 
 ReactDOM.render(
-  <Router history={history}>
-    <App />
-  </Router>,
+  <Provider store={store}>
+    <Router history={history}>
+      <App />
+    </Router>
+  </Provider>,
   document.getElementById('app')
 );

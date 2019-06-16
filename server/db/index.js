@@ -1,7 +1,4 @@
-const Sequelize = require('sequelize')
+const db = require('./db');
+require('./models');
 
-const client = new Sequelize('postgres://localhost:5432/TTP-FS', {
-  logging: false
-});
-
-module.exports = client;
+module.exports = db;

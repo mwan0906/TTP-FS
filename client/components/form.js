@@ -39,6 +39,10 @@ const Form = props => {
   );
 };
 
+const mapStateToProps = state => ({
+    error: state.user.error
+});
+
 const mapDispatchToProps = dispatch => ({
   handleSubmit: e => {
     e.preventDefault();
@@ -46,10 +50,10 @@ const mapDispatchToProps = dispatch => ({
       auth(
         e.target.email.value,
         e.target.password.value,
-        e.target.dispName.value
+        (e.target.dispName && e.target.dispName.value)
       )
     );
   }
 });
 
-export default connect(null, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

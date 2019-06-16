@@ -10,7 +10,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.json());
 app.use('/auth', require('./auth'));
 
-app.get('/', (req, res, next) => {
+app.get('/*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../', 'public', 'index.html'))
 })
 

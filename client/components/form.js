@@ -12,6 +12,7 @@ class Form extends React.Component {
       password: ''
     };
 
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -26,6 +27,11 @@ class Form extends React.Component {
     }
   }
 
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.auth(this.state.email, this.state.password, this.state.dispName);
+  }
+
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value
@@ -34,12 +40,12 @@ class Form extends React.Component {
   }
 
   render() {
-    const { type, handleSubmit, error, userExists } = this.props;
-    if (userExists) this.props.history.replace('/');
+    const { type, error, userExists } = this.props;
+    if (userExists) this.props.history.replace('/portfolio');
     return (
       <div>
         <h1>{type}</h1>
-        <form name={type} onSubmit={handleSubmit}>
+        <form name={type} onSubmit={this.handleSubmit}>
           <div className='inputs'>
             {type === 'Sign Up' && (
               <input
@@ -104,16 +110,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleSubmit: e => {
-    e.preventDefault();
-    dispatch(
-      auth(
-        e.target.email.value,
-        e.target.password.value,
-        e.target.dispName && e.target.dispName.value
-      )
-    );
-  },
+  auth: (email, password, name) => dispatch(auth(email, password, name)),
   clear: () => dispatch(clearError())
 });
 

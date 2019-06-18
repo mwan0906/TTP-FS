@@ -40,6 +40,7 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/me', (req, res, next) => {
+  console.log('in /me');
   if (!req.session.userId) {
     userNotFound(next);
   } else {

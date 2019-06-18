@@ -34,47 +34,38 @@ class Form extends React.Component {
   }
 
   render() {
-    const { type, handleSubmit, error } = this.props;
+    const { type, handleSubmit, error, userExists } = this.props;
+    if (userExists) this.props.history.replace('/');
     return (
       <div>
+        <h1>{type}</h1>
         <form name={type} onSubmit={handleSubmit}>
-          {type === 'Sign Up' && (
-            <div>
-              <label htmlFor='dispName'>
-                <small>Name</small>
-              </label>
+          <div className='inputs'>
+            {type === 'Sign Up' && (
               <input
                 name='dispName'
                 type='text'
                 value={this.state.dispName}
                 onChange={this.handleChange}
+                placeholder='Name'
                 required
               />
-            </div>
-          )}
+            )}
 
-          <div>
-            <label htmlFor='email'>
-              <small>Email</small>
-            </label>
             <input
               name='email'
               type='text'
               value={this.state.email}
               onChange={this.handleChange}
+              placeholder='Email'
               required
             />
-          </div>
-
-          <div>
-            <label htmlFor='password'>
-              <small>Password</small>
-            </label>
             <input
               name='password'
               type='password'
               value={this.state.password}
               onChange={this.handleChange}
+              placeholder='Password'
               required
             />
           </div>
@@ -85,11 +76,17 @@ class Form extends React.Component {
             <div className='buttons'>
               <button type='submit'>{type}</button>
               {type === 'Sign Up' ? (
-                <button type='button' onClick={() => this.props.history.replace('/login')}>
+                <button
+                  type='button'
+                  onClick={() => this.props.history.replace('/login')}
+                >
                   Already a user? Click here to Log In!
                 </button>
               ) : (
-                <button type='button' onClick={() => this.props.history.replace('/signup')}>
+                <button
+                  type='button'
+                  onClick={() => this.props.history.replace('/signup')}
+                >
                   Don't have an account? Click here to Sign Up!
                 </button>
               )}
@@ -102,7 +99,8 @@ class Form extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.user.error
+  error: state.user.error,
+  userExists: !!state.user.email
 });
 
 const mapDispatchToProps = dispatch => ({

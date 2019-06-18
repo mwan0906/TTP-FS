@@ -37,12 +37,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/auth', require('./auth'));
+app.use('/api', require('./api'));
 
 app.get('/*', (req, res, next) => {
   res.sendFile(path.join(__dirname, '../', 'public', 'index.html'));
 });
 
-db.sync({ force: true }).then(() => sessionStore.sync()).then(() => {
+db.sync().then(() => sessionStore.sync()).then(() => {
   console.log('The database is synced!');
   app.listen(PORT, () =>
     console.log(`

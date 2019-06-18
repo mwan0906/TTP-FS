@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 const NavBar = props => {
   return (
     <div>
-      <NavLink to='/login'>Test</NavLink> ||{' '}
-      <NavLink to='/signup'>Other Link</NavLink>
+      <NavLink to='/portfolio'>Portfolio</NavLink> ||{' '}
+      <NavLink to='/transactions'>Transactions</NavLink>
     </div>
   );
 };

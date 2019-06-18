@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { auth, removeUser } from '../store/user';
+import { auth, clearError } from '../store/user';
 
 class Form extends React.Component {
   constructor(props) {
@@ -79,11 +79,22 @@ class Form extends React.Component {
             />
           </div>
 
-          <div>
-            <button type='submit'>{type}</button>
-          </div>
-
-          {error && error.response && <div className='error'> {error.response.data} </div>}
+          {error && error.response ? (
+            <div className='error'> {error.response.data} </div>
+          ) : (
+            <div className='buttons'>
+              <button type='submit'>{type}</button>
+              {type === 'Sign Up' ? (
+                <button type='button' onClick={() => this.props.history.replace('/login')}>
+                  Already a user? Click here to Log In!
+                </button>
+              ) : (
+                <button type='button' onClick={() => this.props.history.replace('/signup')}>
+                  Don't have an account? Click here to Sign Up!
+                </button>
+              )}
+            </div>
+          )}
         </form>
       </div>
     );
@@ -105,9 +116,7 @@ const mapDispatchToProps = dispatch => ({
       )
     );
   },
-  clear: () => dispatch(removeUser())
-  // if the user is on the login/signup form, then they're already not logged in
-  // so we're using this to clear the error message
+  clear: () => dispatch(clearError())
 });
 
 export default connect(

@@ -69,8 +69,8 @@ export const stockBuyer = (ticker, amount) => async (dispatch, getState) => {
     if (typeof data === 'string') throw data;
     const price = data.price * 100;
     const { user } = getState();
-    const { cash, id } = user;
-    if (price * amount > cash) throw 'Not enough cash!';
+    const { balance, id } = user;
+    if (price * amount > balance) throw 'Not enough cash!';
     axios.post(`/api/user/${id}`, {
       ticker,
       price,

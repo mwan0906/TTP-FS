@@ -10,23 +10,22 @@ const setPrices = prices => ({
 });
 
 export const getPrices = type => async (dispatch, getState) => {
+  // choosing to refetch the data frequently
+  // (whenever the user switches from portfolio to transaction or vice versa)
+  // because it's my understanding that stock trading relies on minute to minute information
   const { user } = getState();
   const { data } = await axios.get(`/api/user/${user.id}`);
-  /*     const stocks = data.stocks.map(async stock => {
-        axios.get(`/api/price/${stock.name}`)
-        .then( ({data}) => console.log(data) )
-    }); */
+
   const stocks = await Promise.all(
     data.stocks.map(stock =>
       axios.get(`/api/price/${stock.name}`).then(({ data }) => {
         const line = {
           name: stock.name,
           quantity: stock.line.quantity,
-          price: (type === 'portfolio'
-            ? stock.line.quantity * data.price
-            : data.price
-          ).toFixed(2),
-          increased: data.price > data.open
+          price: type === 'portfolio'
+            ? (stock.line.quantity * data.price).toFixed(2)
+            : data.price,
+          didIncrease: data.price > data.open ? 'up' : data.price === data.open ? 'equal' : 'down'
         };
         return line;
       })

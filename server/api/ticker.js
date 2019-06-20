@@ -12,8 +12,8 @@ router.get('/:tickerId', async (req, res, next) => {
     );
     res.send({
         name: data.companyName,
-        open: data.open,
-        price: data.latestPrice
+        open: data.open.toFixed(2),
+        price: data.latestPrice.toFixed(2)
     });
   } catch (err) {
     console.log(err);

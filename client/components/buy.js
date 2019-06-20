@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { stockBuyer } from '../store';
+import { stockBuyer, getPrices } from '../store';
 
 class Buy extends React.Component {
   constructor(props) {

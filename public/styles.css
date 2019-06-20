@@ -6,6 +6,16 @@ body {
   color: red;
 }
 
-td:nth-child(2) {
-  text-align: right;
+.up {
+  color: darkgreen;
 }
+.down {
+  color: darkred;
+}
+.equal {
+  color: grey;
+}
+
+/* td:nth-child(2) {
+  text-align: right;
+} */

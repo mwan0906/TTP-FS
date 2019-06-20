@@ -8,7 +8,6 @@ class Transactions extends React.Component {
     this.state = {
       loading: true
     };
-    console.log('loading!')
   }
 
   componentDidMount() {
@@ -22,7 +21,8 @@ class Transactions extends React.Component {
       <div>
         <h1>Transactions Here</h1>
         {this.props.stocks.map(stock => <div>
-          {stock.name.toUpperCase()} - {stock.quantity} Shares @ ${stock.price}
+          {stock.name.toUpperCase()} - {stock.quantity} Shares @{' '}
+          <span className={stock.didIncrease}>${stock.price}</span>
         </div>)}
       </div>
     );

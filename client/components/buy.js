@@ -21,14 +21,21 @@ class Buy extends React.Component {
     this.setState({
       loading: true
     });
-    axios.get(`/api/price/${this.state.ticker}`)
+    axios
+      .get(`/api/price/${this.state.ticker}`)
       .then(res => {
         const { data } = res;
-        if (typeof data === 'string') this.setState({ error: data });
-        else if (data.price * Number(this.state.shares) > this.props.cash) this.setState({ error: 'Not enough cash!' });
-        else {
-            // do something
-        };
+        if (typeof data === 'string') return this.setState({ error: data });
+
+        const price = data.price * 100;
+        const amount = Number(this.state.shares);
+        if (price * amount > this.props.cash)
+          return this.setState({ error: 'Not enough cash!' });
+        return axios.post(`/api/user/${this.props.userId}`, {
+          ticker: this.state.ticker,
+          price,
+          amount
+        });
       })
       .then(() =>
         this.setState({
@@ -41,7 +48,7 @@ class Buy extends React.Component {
     this.setState({
       [e.target.name]: e.target.value
     });
-    if (this.state.error) this.setState({error: ''});
+    if (this.state.error) this.setState({ error: '' });
   }
 
   render() {
@@ -54,29 +61,29 @@ class Buy extends React.Component {
             currency: 'USD'
           })}
         </h2>
-        <form name="buy" onSubmit={this.handleSubmit}>
-          <div className="inputs">
+        <form name='buy' onSubmit={this.handleSubmit}>
+          <div className='inputs'>
             <input
-              name="ticker"
-              type="text"
+              name='ticker'
+              type='text'
               value={this.state.ticker}
               onChange={this.handleChange}
-              placeholder="Ticker Symbol"
+              placeholder='Ticker Symbol'
               required
             />
 
             <input
-              name="shares"
-              type="number"
+              name='shares'
+              type='number'
               min={0}
               value={this.state.shares}
               onChange={this.handleChange}
-              placeholder="Number of Shares"
+              placeholder='Number of Shares'
               required
             />
           </div>
 
-          <button type="submit" disabled={this.state.loading}>
+          <button type='submit' disabled={this.state.loading}>
             Buy
           </button>
         </form>
@@ -89,6 +96,7 @@ class Buy extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    userId: state.user.id,
     cash: state.user.balance || 500000
   };
 };

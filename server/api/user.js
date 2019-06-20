@@ -4,13 +4,13 @@ const { User, Stock } = require('../db/models');
 const axios = require('axios');
 
 router.get('/:userId', (req, res, next) => {
-  axios.get('/api/1').then( response => console.log('data:', response.data) )
   User.findByPk(req.params.userId)
     .then(user => user.getStocks({attributes: ['name']}))
     .then(stocks => res.send(stocks));
 });
 
 router.post('/:userId', (req, res, next) => {
+    console.log('request:', req.body)
   Promise.all([
     User.findByPk(req.params.userId),
     Stock.findOrCreate({

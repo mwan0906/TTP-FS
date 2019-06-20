@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { stockBuyer } from '../store';
-import axios from 'axios';
 
 class Buy extends React.Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class Buy extends React.Component {
     .then(res =>
       this.setState({
         loading: false,
-        error: res
+        error: res // the call will only return a response if there was an error
       })
     );
   }

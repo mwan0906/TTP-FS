@@ -1,21 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getPrices } from '../store';
 import Buy from './buy';
 
 class Portfolio extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loading: true
+    };
+  }
+
+  componentDidMount() {
+    this.props.getPrices()
+    .then( () => this.setState({loading: false}) );
   }
 
   render() {
+    if (this.state.loading) return <h1>Loading...</h1>;
     return (
       <div>
         <h1>Portfolio Here</h1>
         <table>
-          <tr>
-            <td>Ticker</td>
-            <td>$Price</td>
-          </tr>
+          {this.props.stocks.map(stock => (
+            <tr>
+              <td>
+                {stock.name.toUpperCase()} - {stock.quantity} Shares
+              </td>
+              <td>
+                ${stock.price}
+              </td>
+            </tr>
+          ))}
         </table>
         <Buy />
       </div>
@@ -23,4 +39,19 @@ class Portfolio extends React.Component {
   }
 }
 
-export default connect(null)(Portfolio);
+const mapStateToProps = state => {
+  return {
+    stocks: state.stocks
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getPrices: () => dispatch(getPrices('portfolio'))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Portfolio);

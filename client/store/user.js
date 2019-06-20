@@ -67,7 +67,7 @@ export const stockBuyer = (ticker, amount) => async (dispatch, getState) => {
   try {
     const { data } = await axios.get(`/api/price/${ticker}`);
     if (typeof data === 'string') throw data;
-    const price = data.price * 100;
+    const price = parseInt(data.price * 100);
     const { user } = getState();
     const { balance, id } = user;
     if (price * amount > balance) throw 'Not enough cash!';

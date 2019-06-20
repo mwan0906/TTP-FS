@@ -89,7 +89,7 @@ class Buy extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    cash: state.user.balance
+    cash: state.user.balance || 500000
   };
 };
 

@@ -40,11 +40,10 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/me', (req, res, next) => {
-  console.log('in /me');
-  if (!req.session.userId) {
+  if (!req.session.passport.user) {
     userNotFound(next);
   } else {
-    User.findById(req.session.userId)
+    User.findByPk(req.session.passport.user)
       .then(user => (user ? res.json(user) : userNotFound(next)))
       .catch(next);
   }

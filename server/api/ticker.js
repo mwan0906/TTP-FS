@@ -12,11 +12,12 @@ router.get('/:tickerId', async (req, res, next) => {
     );
     res.send({
         name: data.companyName,
+        open: data.open,
         price: data.latestPrice
     });
   } catch (err) {
     console.log(err);
-    res.send('Ticker not found');
+    res.send('Ticker not found!');
   }
 });
 

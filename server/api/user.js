@@ -14,7 +14,7 @@ router.post('/:userId', (req, res, next) => {
       where: { name: req.body.ticker }
     })
   ])
-  .then( ([user, stock]) => user.buyStock(stock[0]))
+  .then( ([user, stock]) => user.buyStock(stock[0], req.body.amount))
   .then(stocks => res.send(stocks));
 });
 

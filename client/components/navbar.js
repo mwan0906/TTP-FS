@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 
 const NavBar = props => {
   return (
-    <div>
+    <div id='nav'>
       {props.userExists && (
         <React.Fragment>
-          <NavLink to='/portfolio'>Portfolio</NavLink> ||{' '}
-          <NavLink to='/transactions'>Transactions</NavLink>
-          <NavLink to='/logout'>Log Out</NavLink>
+          <span className='left'>
+            <NavLink to='/portfolio'>Portfolio</NavLink> ||{' '}
+            <NavLink to='/transactions'>Transactions</NavLink>
+          </span>
+          <span className='right'>
+            <NavLink to='/logout'>Log Out</NavLink>
+          </span>
         </React.Fragment>
       )}
     </div>

@@ -50,6 +50,7 @@ export const auth = (email, password, name) => async dispatch => {
 
   try {
     dispatch(getUser(res.data));
+    return res.data.error; // returns to see if there was an error logging in
   } catch (err) {
     console.error(err);
   }

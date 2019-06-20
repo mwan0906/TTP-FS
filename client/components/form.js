@@ -29,7 +29,12 @@ class Form extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.auth(this.state.email, this.state.password, this.state.dispName);
+    this.props.auth(this.state.email, this.state.password, this.state.dispName)
+    .then( err => {
+      if (!err) // if the login was successful
+      // (the auth will only return something if something went wrong)
+        this.props.history.push('/portfolio');
+    })
   }
 
   handleChange(e) {
@@ -40,8 +45,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { type, error, userExists } = this.props;
-    if (userExists) this.props.history.replace('/portfolio');
+    const { type, error } = this.props;
     return (
       <div>
         <h1>{type}</h1>
@@ -105,8 +109,7 @@ class Form extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  error: state.user.error,
-  userExists: !!state.user.email
+  error: state.user.error
 });
 
 const mapDispatchToProps = dispatch => ({

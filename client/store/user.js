@@ -5,6 +5,7 @@ const defaultUser = {};
 const GET_USER = 'GET_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const CLEAR_ERROR = 'CLEAR_ERROR';
+const BUY_STOCK = 'BUY_STOCK';
 
 const getUser = user => ({
   type: GET_USER,
@@ -13,9 +14,12 @@ const getUser = user => ({
 const removeUser = () => ({
   type: REMOVE_USER
 });
-
 export const clearError = () => ({
   type: CLEAR_ERROR
+});
+const buyStock = amountSpent => ({
+  type: BUY_STOCK,
+  amountSpent
 });
 
 export const me = () => async dispatch => {
@@ -59,6 +63,26 @@ export const logout = () => async dispatch => {
   }
 };
 
+export const stockBuyer = (ticker, amount) => async (dispatch, getState) => {
+  try {
+    const { data } = await axios.get(`/api/price/${ticker}`);
+    if (typeof data === 'string') throw data;
+    const price = data.price * 100;
+    const { user } = getState();
+    const { cash, id } = user;
+    if (price * amount > cash) throw 'Not enough cash!';
+    axios.post(`/api/user/${id}`, {
+      ticker,
+      price,
+      amount
+    });
+    dispatch(buyStock(price * amount));
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
@@ -66,7 +90,9 @@ export default function(state = defaultUser, action) {
     case REMOVE_USER:
       return defaultUser;
     case CLEAR_ERROR:
-      return {...state, error: undefined};
+      return { ...state, error: undefined };
+    case BUY_STOCK:
+      return { ...state, balance: state.balance - action.amountSpent };
     default:
       return state;
   }

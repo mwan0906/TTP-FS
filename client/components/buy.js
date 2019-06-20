@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { stockBuyer } from '../store';
 import axios from 'axios';
 
 class Buy extends React.Component {
@@ -21,27 +22,13 @@ class Buy extends React.Component {
     this.setState({
       loading: true
     });
-    axios
-      .get(`/api/price/${this.state.ticker}`)
-      .then(res => {
-        const { data } = res;
-        if (typeof data === 'string') return this.setState({ error: data });
-
-        const price = data.price * 100;
-        const amount = Number(this.state.shares);
-        if (price * amount > this.props.cash)
-          return this.setState({ error: 'Not enough cash!' });
-        return axios.post(`/api/user/${this.props.userId}`, {
-          ticker: this.state.ticker,
-          price,
-          amount
-        });
+    this.props.buyStocks(this.state.ticker, Number(this.state.shares))
+    .then(res =>
+      this.setState({
+        loading: false,
+        error: res
       })
-      .then(() =>
-        this.setState({
-          loading: false
-        })
-      );
+    );
   }
 
   handleChange(e) {
@@ -101,4 +88,10 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Buy);
+const mapDispatchToProps = dispatch => {
+  return {
+    buyStocks: (ticker, shares) => dispatch(stockBuyer(ticker, shares))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Buy);

@@ -5,6 +5,7 @@ const Line = require('./line');
 User.belongsToMany(Stock, { through: 'line' });
 
 User.prototype.buyStock = async function(stock, price, amountBought = 1) {
+  console.log('buying', amountBought, 'at', price);
   await Promise.all([
     Line.findOrCreate({
       where: {

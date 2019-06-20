@@ -9,8 +9,7 @@ router.get('/:userId', (req, res, next) => {
     .then(stocks => res.send(stocks));
 });
 
-router.post('/:userId', (req, res, next) => {
-    console.log('request:', req.body)
+router.post('/:userId', async (req, res, next) => {
   Promise.all([
     User.findByPk(req.params.userId),
     Stock.findOrCreate({

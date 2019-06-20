@@ -4,7 +4,8 @@ const Line = require('./line');
 
 User.belongsToMany(Stock, { through: 'line' });
 
-User.prototype.buyStock = async function(stock, amountBought = 1) {
+User.prototype.buyStock = async function(stock, price, amountBought = 1) {
+   
   const line = await Line.findOrCreate({
     where: {
       userId: this.id,
@@ -17,6 +18,7 @@ User.prototype.buyStock = async function(stock, amountBought = 1) {
   if (!line[1]) await line[0].update({
       quantity: line[0].quantity + amountBought
   });
+  await this.update({ balance: this.balance - (price * amountBought) });
   return this.getStocks({ attributes: ['name'] });
 };
 

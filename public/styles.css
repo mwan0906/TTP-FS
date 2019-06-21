@@ -2,8 +2,42 @@ body {
   font-size: 24px;
 }
 
+#formContainer {
+  text-align: center;
+  margin: auto;
+  width: 40%;
+}
 .error {
   color: red;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+#portfolio, #transactions {
+  width: 40%;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+tr {
+  border-bottom: 1px solid lightgray;
+}
+.inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.transactionInfo {
+  text-align: justify;
+}
+.transactionInfo:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
 }
 
 .up {
@@ -16,6 +50,8 @@ body {
   color: grey;
 }
 
-/* td:nth-child(2) {
-  text-align: right;
-} */
+
+.right {
+  float: right;
+  margin: 0 50px;
+}

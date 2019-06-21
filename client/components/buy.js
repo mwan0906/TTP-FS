@@ -67,11 +67,11 @@ class Buy extends React.Component {
               placeholder='Number of Shares'
               required
             />
+            <br />
+            <button type='submit' disabled={this.state.loading}>
+              Buy
+            </button>
           </div>
-
-          <button type='submit' disabled={this.state.loading}>
-            Buy
-          </button>
         </form>
 
         {this.state.error && <div className='error'>{this.state.error}</div>}

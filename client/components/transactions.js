@@ -18,12 +18,21 @@ class Transactions extends React.Component {
   render() {
     if (this.state.loading) return <h1>Loading...</h1>;
     return (
-      <div>
-        <h1>Transactions Here</h1>
-        {this.props.stocks.map(stock => <div>
-          {stock.name.toUpperCase()} - {stock.quantity} Shares @{' '}
-          <span className={stock.didIncrease}>${stock.price}</span>
-        </div>)}
+      <div id='transactions'>
+        <h1>Transactions</h1>
+        <table>
+            {this.props.stocks.map(stock => (
+              <tr>
+                <td>
+                  BOUGHT {stock.name.toUpperCase()} :
+                </td>
+                <td>
+                  {stock.quantity} Shares
+                </td>
+                <td>@ <span className={stock.didIncrease}>${stock.price}</span></td>
+              </tr>
+            ))}
+          </table>
       </div>
     );
   }

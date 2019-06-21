@@ -47,7 +47,7 @@ class Form extends React.Component {
   render() {
     const { type, error } = this.props;
     return (
-      <div>
+      <div id='formContainer'>
         <h1>{type}</h1>
         <form name={type} onSubmit={this.handleSubmit}>
           <div className='inputs'>
@@ -83,7 +83,8 @@ class Form extends React.Component {
           {error && error.response ? (
             <div className='error'> {error.response.data} </div>
           ) : (
-            <div className='buttons'>
+            <div className='inputs'>
+              <br />
               <button type='submit'>{type}</button>
               {type === 'Sign Up' ? (
                 <button

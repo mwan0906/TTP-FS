@@ -12,27 +12,26 @@ class Portfolio extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getPrices()
-    .then( () => this.setState({loading: false}) );
+    this.props.getPrices().then(() => this.setState({ loading: false }));
   }
 
   render() {
     if (this.state.loading) return <h1>Loading...</h1>;
     return (
-      <div>
-        <h1>Portfolio Here</h1>
-        <table>
-          {this.props.stocks.map(stock => (
-            <tr>
-              <td>
-                {stock.name.toUpperCase()} - {stock.quantity} Shares
-              </td>
-              <td>
-                ${stock.price}
-              </td>
-            </tr>
-          ))}
-        </table>
+      <div className='container'>
+        <div id='portfolio'>
+          <h1>Portfolio</h1>
+          <table>
+            {this.props.stocks.map(stock => (
+              <tr>
+                <td>
+                  {stock.name.toUpperCase()} - {stock.quantity} Shares
+                </td>
+                <td>${stock.price}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
         <Buy />
       </div>
     );

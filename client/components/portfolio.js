@@ -25,8 +25,9 @@ class Portfolio extends React.Component {
             {this.props.stocks.map(stock => (
               <tr>
                 <td>
-                  {stock.name.toUpperCase()} - {stock.quantity} Shares
+                  {stock.name.toUpperCase()} :
                 </td>
+                <td>{stock.quantity} Shares</td>
                 <td>$<span className={stock.didIncrease}>{stock.price}</span></td>
               </tr>
             ))}

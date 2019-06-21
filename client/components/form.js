@@ -29,12 +29,14 @@ class Form extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.auth(this.state.email, this.state.password, this.state.dispName)
-    .then( err => {
-      if (!err) // if the login was successful
-      // (the auth will only return something if something went wrong)
-        this.props.history.push('/portfolio');
-    })
+    this.props
+      .auth(this.state.email, this.state.password, this.state.dispName)
+      .then(err => {
+        if (!err)
+          // if the login was successful
+          // (the auth will only return something if something went wrong)
+          this.props.history.push('/portfolio');
+      });
   }
 
   handleChange(e) {
@@ -79,30 +81,29 @@ class Form extends React.Component {
               required
             />
           </div>
-
-          {error && error.response ? (
-            <div className='error'> {error.response.data} </div>
-          ) : (
-            <div className='inputs'>
-              <br />
+          <div className='inputs'>
+            <br />
+            {error && error.response ? (
+              <div className='error'> {error.response.data} </div>
+            ) : (
               <button type='submit'>{type}</button>
-              {type === 'Sign Up' ? (
-                <button
-                  type='button'
-                  onClick={() => this.props.history.replace('/login')}
-                >
-                  Already a user? Click here to Log In!
-                </button>
-              ) : (
-                <button
-                  type='button'
-                  onClick={() => this.props.history.replace('/signup')}
-                >
-                  Don't have an account? Click here to Sign Up!
-                </button>
-              )}
-            </div>
-          )}
+            )}
+            {type === 'Sign Up' ? (
+              <button
+                type='button'
+                onClick={() => this.props.history.replace('/login')}
+              >
+                Already a user? Click here to Log In!
+              </button>
+            ) : (
+              <button
+                type='button'
+                onClick={() => this.props.history.replace('/signup')}
+              >
+                Don't have an account? Click here to Sign Up!
+              </button>
+            )}
+          </div>
         </form>
       </div>
     );

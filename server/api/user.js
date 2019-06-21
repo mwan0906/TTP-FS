@@ -1,22 +1,19 @@
 const router = require('express').Router();
-const { User, Stock, Line } = require('../db/models');
+const { User, Stock } = require('../db/models');
 
 const userGateway = (req, res, next) => {
   if (req.params.userId != req.session.passport.user) res.send('Forbidden');
   else next();
 }
 
+router.get('/:userId/lines', userGateway, async (req, res, next) => {
+  const user = await User.findByPk(req.params.userId);
+  res.send( await user.individualLines());
+});
+
 router.get('/:userId', userGateway, async (req, res, next) => {
-  User.findByPk(req.params.userId, {
-    include: [{
-      model: Stock,
-      attributes: ['name'],
-      through: {
-        attributes: ['quantity']
-      }
-    }]
-  })
-  .then( stocks => res.send(stocks) );
+  const user = await User.findByPk(req.params.userId);
+  res.send( await user.allLines());
 });
 
 router.post('/:userId', userGateway, async (req, res, next) => {

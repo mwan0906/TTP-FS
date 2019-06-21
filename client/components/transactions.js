@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPrices } from '../store';
+import { getTransactions } from '../store';
 
 class Transactions extends React.Component {
   constructor(props) {
@@ -11,28 +11,29 @@ class Transactions extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getPrices()
-    .then( () => this.setState({loading: false}) );
+    this.props.getTransactions().then(() => this.setState({ loading: false }));
   }
-    
+
   render() {
     if (this.state.loading) return <h1>Loading...</h1>;
     return (
       <div id='transactions'>
         <h1>Transactions</h1>
         <table>
-            {this.props.stocks.map(stock => (
-              <tr>
-                <td>
-                  BOUGHT {stock.name.toUpperCase()} :
-                </td>
-                <td>
-                  {stock.quantity} Shares
-                </td>
-                <td>@ ${stock.price}</td>
-              </tr>
-            ))}
-          </table>
+          {this.props.lines.map(line => (
+            <tr>
+              <td>BOUGHT {line.stockName.toUpperCase()} :</td>
+              <td>{line.quantity} Shares</td>
+              <td>
+                @{' '}
+                {(line.boughtPrice / 100).toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                })}
+              </td>
+            </tr>
+          ))}
+        </table>
       </div>
     );
   }
@@ -40,17 +41,17 @@ class Transactions extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    stocks: state.stocks
+    lines: state.stocks
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPrices: () => dispatch(getPrices('transactions'))
+    getTransactions: () => dispatch(getTransactions())
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Transactions)
+)(Transactions);

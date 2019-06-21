@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getPrices } from './stock';
+import { getPortfolio } from './stock';
 
 const defaultUser = {};
 
@@ -77,8 +77,7 @@ export const stockBuyer = (ticker, amount) => async (dispatch, getState) => {
       ticker,
       price,
       amount
-    }).then( () =>
-    dispatch(getPrices('portfolio')) );
+    }).then( () => dispatch(getPortfolio()) );
     dispatch(buyStock(price * amount));
   } catch (err) {
     console.error(err);

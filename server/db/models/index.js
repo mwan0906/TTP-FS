@@ -1,34 +1,37 @@
 const User = require('./user');
 const Stock = require('./stock');
 const Line = require('./line');
+const Sequelize = require('sequelize');
 
-User.belongsToMany(Stock, { through: 'line' });
+User.hasMany(Line);
+Stock.hasMany(Line);
+
+User.prototype.individualLines = async function() {
+  return await this.getLines({
+    attributes: ['stockName', 'boughtPrice', 'quantity'],
+    order: [['createdAt', 'DESC']]
+  });
+};
+
+User.prototype.allLines = async function() {
+  return await this.getLines({
+    attributes: ['stockName', [Sequelize.fn('sum', Sequelize.col('quantity')), 'quantity']],
+    group: ['stockName']
+  });
+};
 
 User.prototype.buyStock = async function(stock, price, amountBought = 1) {
   await Promise.all([
-    Line.findOrCreate({
-      where: {
-        userId: this.id,
-        stockName: stock.name
-      },
-      defaults: {
-        quantity: amountBought
-      }
-    }).then(line => {
-      if (!line[1])
-        return line[0].update({
-          quantity: line[0].quantity + amountBought
-        });
+    Line.create({
+      userId: this.id,
+      stockName: stock.name,
+      quantity: amountBought,
+      boughtPrice: price
     }),
     this.update({ balance: this.balance - price * amountBought })
   ]);
 
-  return this.getStocks({
-    attributes: ['name'],
-    through: {
-      attributes: ['quantity']
-    }
-  });
+  return this.allLines();
 };
 
 module.exports = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getPrices } from '../store';
+import { getPortfolio } from '../store';
 import Buy from './buy';
 
 class Portfolio extends React.Component {
@@ -12,7 +12,7 @@ class Portfolio extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getPrices().then(() => this.setState({ loading: false }));
+    this.props.getPortfolio().then(() => this.setState({ loading: false }));
   }
 
   render() {
@@ -47,7 +47,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPrices: () => dispatch(getPrices('portfolio'))
+    getPortfolio: () => dispatch(getPortfolio())
   };
 };
 

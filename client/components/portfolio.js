@@ -27,7 +27,7 @@ class Portfolio extends React.Component {
                 <td>
                   {stock.name.toUpperCase()} - {stock.quantity} Shares
                 </td>
-                <td>${stock.price}</td>
+                <td>$<span className={stock.didIncrease}>{stock.price}</span></td>
               </tr>
             ))}
           </table>

@@ -29,7 +29,7 @@ class Transactions extends React.Component {
                 <td>
                   {stock.quantity} Shares
                 </td>
-                <td>@ <span className={stock.didIncrease}>${stock.price}</span></td>
+                <td>@ ${stock.price}</td>
               </tr>
             ))}
           </table>
